@@ -1,0 +1,53 @@
+{
+  "project": "git-admin.inyuapp.com/feature/generate/aaa",
+  "config": {
+    "path": "etc/app",
+    "type": "toml",
+    "pkg": "config",
+    "gen_file": true,
+    "gen_parse_code": true
+  },
+  "mysql": {
+    "namespace": "mysql",
+    "pkg": "mysql",
+    "gen_code": true,
+    "sources": [
+      {
+        "name": "demo",
+        "driver": "mysql",
+        "dsn": "admin:123456@tcp(127.0.0.1:3306)/test?parseTime=true&loc=Local",
+        "max_idle_conn": 10,
+        "max_open_conn": 10,
+        "max_life_time": 300
+      }
+    ]
+  },
+  "redis": {
+    "namespace": "redis",
+    "pkg": "redis",
+    "gen_code": true,
+    "sources": [
+      {
+        "name": "demo",
+        "addr": "127.0.0.1:6379",
+        "pwd": "123456",
+        "db": 0,
+        "pool_size": 10
+      }
+    ]
+  },
+  "rabbitmq": {
+    "namespace": "rabbitmq",
+    "pkg": "rabbitmq",
+    "gen_producer_code": true,
+    "gen_consumer_code": true,
+    "sources": [
+      {
+        "name": "demo",
+        "url": "amqp://admin:123456@127.0.0.1:5672",
+        "topic": "gift_topic",
+        "queue": "gift"
+      }
+    ]
+  }
+}

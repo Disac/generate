@@ -1,46 +1,31 @@
 package gen
 
-type Option func(*Gen)
+import "os"
 
-//ConfigPath 设置config文件路径
-func ConfigPath(path, typ string) Option {
-	return func(gen *Gen) {
-		gen.config.path = path
-		gen.config.typ = typ
+type Option func(*Generator)
+
+//ConfigPath 设置config文件路径，类型，可选包名
+func ConfigPath(path, typ string, pkg ...string) Option {
+	return func(gen *Generator) {
+		gen.Config.Path = path
+		gen.Config.Type = typ
+		if len(pkg) > 0 {
+			gen.Config.Pkg = pkg[0]
+			gen.Config.Import = gen.Project + string(os.PathSeparator) + pkg[0]
+		}
 	}
 }
 
-//CloseGenerateConfigCode 关闭生成config代码
-func CloseGenerateConfigCode() Option {
-	return func(gen *Gen) {
-		gen.config.code = false
+//CloseGenerateConfigParseCode 关闭生成配置解析代码
+func CloseGenerateConfigParseCode() Option {
+	return func(gen *Generator) {
+		gen.Config.GenParseCode = false
 	}
 }
 
-//CloseGenerateMysqlCode 关闭生成mysql代码
-func CloseGenerateMysqlCode() Option {
-	return func(gen *Gen) {
-		gen.code.mysql = false
-	}
-}
-
-//CloseGenerateRedisCode 关闭生成redis代码
-func CloseGenerateRedisCode() Option {
-	return func(gen *Gen) {
-		gen.code.redis = false
-	}
-}
-
-//CloseGenerateRabbitmqCode 关闭生成rabbitmq代码
-func CloseGenerateRabbitmqCode() Option {
-	return func(gen *Gen) {
-		gen.code.rabbitmq = false
-	}
-}
-
-//CloseGenerateKafkaCode 关闭生成kafka代码
-func CloseGenerateKafkaCode() Option {
-	return func(gen *Gen) {
-		gen.code.kafka = false
+//CloseGenerateConfigParseCode 关闭生成配置文件
+func CloseGenerateConfigFile() Option {
+	return func(gen *Generator) {
+		gen.Config.GenFile = false
 	}
 }

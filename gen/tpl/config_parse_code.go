@@ -1,7 +1,7 @@
 package tpl
 
-var ConfigTpl = `
-package config
+var ConfigParseCodeTpl = `
+package {{.Pkg}}
 
 import (
 	"fmt"
@@ -26,8 +26,8 @@ func Init() error {
 		Env = env_dev
 	}
 	Viper = viper.New()
-	Viper.AddConfigPath("./etc/app/")
-	Viper.SetConfigType("toml")
+	Viper.AddConfigPath("{{.Path}}")
+	Viper.SetConfigType("{{.Type}}")
 	Viper.SetConfigName(Env)
 
 	if err := Viper.ReadInConfig(); err != nil {
