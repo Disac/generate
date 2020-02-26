@@ -29,3 +29,17 @@ func CloseGenerateConfigFile() Option {
 		gen.Config.GenFile = false
 	}
 }
+
+//CloseGenerateMysqlCode 关闭生成mysql连接代码
+func CloseGenerateMysqlCode() Option {
+	return func(gen *Generator) {
+		gen.Mysql.GenCode = false
+	}
+}
+
+//CloseGenerateRedisCode 关闭生成redis连接代码
+func CloseGenerateRedisCode() Option {
+	return func(gen *Generator) {
+		gen.Redis.GenCode = false
+	}
+}

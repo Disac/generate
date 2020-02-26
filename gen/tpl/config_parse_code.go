@@ -26,7 +26,7 @@ func Init() error {
 		Env = env_dev
 	}
 	Viper = viper.New()
-	Viper.AddConfigPath("{{.Path}}")
+	Viper.AddConfigPath("./{{.Path}}")
 	Viper.SetConfigType("{{.Type}}")
 	Viper.SetConfigName(Env)
 

@@ -11,7 +11,7 @@ import (
 const TplNameRedisCode = "redis_code"
 
 func (g *Generator) RedisCode() {
-	path := g.ProviderDir + g.Redis.Pkg
+	path := g.Dir.Providers + g.Redis.Pkg
 	err := g.mkdirAll(path)
 	if err != nil {
 		log.Fatal(fmt.Sprintf(ErrFormat, err))

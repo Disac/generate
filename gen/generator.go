@@ -12,15 +12,14 @@ import (
 )
 
 const (
-	ErrFormat = "new gen error: %s"
-)
-
-const (
+	ErrFormat  = "new gen error: %s"
 	FileFormat = "%s" + string(os.PathSeparator) + "%s.%s"
 )
 
 const (
-	DefaultProviderPkg = "provider"
+	DefaultModelDir    = "models" + string(os.PathSeparator)
+	DefaultModuleDir   = "modules" + string(os.PathSeparator)
+	DefaultProviderDir = "providers" + string(os.PathSeparator)
 )
 
 var GOPATH string
@@ -47,13 +46,12 @@ func NewGenerator(opt ...Option) *Generator {
 }
 
 type Generator struct {
-	Project     string `json:"project"`
-	Root        string `json:"root"`
-	ProviderDir string `json:"provider_dir"`
-
-	Config model.Config `json:"config"`
-	Mysql  model.Mysql  `json:"mysql"`
-	Redis  model.Redis  `json:"redis"`
+	Project string       `json:"project"`
+	Root    string       `json:"root"`
+	Dir     model.Dir    `json:"dir"`
+	Config  model.Config `json:"config"`
+	Mysql   model.Mysql  `json:"mysql"`
+	Redis   model.Redis  `json:"redis"`
 }
 
 func (g *Generator) init() {
@@ -62,7 +60,11 @@ func (g *Generator) init() {
 	if err != nil {
 		log.Fatal(fmt.Sprintf(ErrFormat, err))
 	}
-	g.ProviderDir = g.Root + DefaultProviderPkg + string(os.PathSeparator)
+	g.Dir = model.Dir{
+		Models:    g.Root + DefaultModelDir,
+		Modules:   g.Root + DefaultModuleDir,
+		Providers: g.Root + DefaultProviderDir,
+	}
 	g.Config.Import = g.Project + string(os.PathSeparator) + g.Config.Pkg
 }
 

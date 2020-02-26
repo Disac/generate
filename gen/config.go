@@ -26,7 +26,7 @@ func (g *Generator) ConfigFile() {
 	if err != nil {
 		log.Fatal(fmt.Sprintf(ErrFormat, err))
 	}
-	f, _ := os.Create(fmt.Sprintf(FileFormat, path, "beta", g.Config.Type))
+	f, _ := os.Create(fmt.Sprintf(FileFormat, path, "dev", g.Config.Type))
 	err = t.Execute(f, g)
 	if err != nil {
 		log.Fatal(fmt.Sprintf(ErrFormat, err))

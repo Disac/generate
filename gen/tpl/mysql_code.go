@@ -12,9 +12,13 @@ import (
 
 {{range .Mysql.Sources}}
 var {{upper .Name}} *gorm.DB{{end}}
+
 func Init() (err error) { {{range .Mysql.Sources}}
-	{{upper .Name}}, err = initClient("{{.Name}}"){{end}}
-	return err
+	{{upper .Name}}, err = initClient("{{.Name}}")
+	if err != nil {
+		return
+	}{{end}}
+	return
 }
 
 func initClient(key string) (db *gorm.DB, err error) {

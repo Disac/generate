@@ -11,7 +11,7 @@ import (
 const TplNameMysqlCode = "mysql_code"
 
 func (g *Generator) MysqlCode() {
-	path := g.ProviderDir + g.Mysql.Pkg
+	path := g.Dir.Providers + g.Mysql.Pkg
 	err := g.mkdirAll(path)
 	if err != nil {
 		log.Fatal(fmt.Sprintf(ErrFormat, err))
