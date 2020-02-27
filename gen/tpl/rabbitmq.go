@@ -27,7 +27,7 @@ var ( {{range .Rabbitmq.Sources.Publishers}}
 	{{upper .Name}}Publisher *cony.Publisher{{end}}
 ){{end}}
 
-func InitPublisher() (err error) { {{range .Rabbitmq.Sources.Publishers}}
+func InitPublishers() (err error) { {{range .Rabbitmq.Sources.Publishers}}
 	{{upper .Name}}Publisher, err = initPublisher("{{.Name}}")
 	if err != nil {
 		return
@@ -113,7 +113,7 @@ var ( {{range .Rabbitmq.Sources.Consumers}}
 	{{upper .Name}}Consumer *cony.Consumer{{end}}
 ){{end}}
 
-func InitConsumer() (err error) { {{range .Rabbitmq.Sources.Consumers}}
+func InitConsumers() (err error) { {{range .Rabbitmq.Sources.Consumers}}
 	{{upper .Name}}Client, {{upper .Name}}Consumer, err = initConsumer("{{.Name}}")
 	if err != nil {
 		return

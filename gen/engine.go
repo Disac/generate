@@ -6,9 +6,9 @@ import (
 )
 
 const (
-	publisher = "_publisher"
-	producer  = "_producer"
-	consumer  = "_consumer"
+	publisher = "publisher"
+	producer  = "producer"
+	consumer  = "consumer"
 )
 
 const (
@@ -69,35 +69,28 @@ func (g *Generator) InitRabbitmq() {
 
 func (g *Generator) RabbitmqPublisherCode() {
 	path := g.Dir.Providers + g.Rabbitmq.Pkg
-	fileName := fmt.Sprintf(FileFormat, path, g.Rabbitmq.Pkg+publisher, "go")
+	fileName := fmt.Sprintf(FileFormat, path, publisher, "go")
 	g.generate(path, TplNameRabbitmqPublisherCode, tpl.RabbitmqPublisherTpl, fileName, g)
 	return
 }
 
 func (g *Generator) RabbitmqConsumerCode() {
 	path := g.Dir.Providers + g.Rabbitmq.Pkg
-	fileName := fmt.Sprintf(FileFormat, path, g.Rabbitmq.Pkg+consumer, "go")
+	fileName := fmt.Sprintf(FileFormat, path, consumer, "go")
 	g.generate(path, TplNameRabbitmqConsumerCode, tpl.RabbitmqConsumerTpl, fileName, g)
-	return
-}
-
-func (g *Generator) InitKafka() {
-	path := g.Dir.Providers + g.Kafka.Pkg
-	fileName := fmt.Sprintf(FileFormat, path, g.Rabbitmq.Pkg, "go")
-	g.generate(path, TplNameKafkaCode, tpl.KafkaTpl, fileName, g)
 	return
 }
 
 func (g *Generator) KafkaProducerCode() {
 	path := g.Dir.Providers + g.Kafka.Pkg
-	fileName := fmt.Sprintf(FileFormat, path, g.Kafka.Pkg+producer, "go")
+	fileName := fmt.Sprintf(FileFormat, path, producer, "go")
 	g.generate(path, TplNameKafkaProducerCode, tpl.KafkaProducerTpl, fileName, g)
 	return
 }
 
 func (g *Generator) KafkaConsumerCode() {
 	path := g.Dir.Providers + g.Kafka.Pkg
-	fileName := fmt.Sprintf(FileFormat, path, g.Kafka.Pkg+consumer, "go")
+	fileName := fmt.Sprintf(FileFormat, path, consumer, "go")
 	g.generate(path, TplNameKafkaConsumerCode, tpl.KafkaConsumerTpl, fileName, g)
 	return
 }

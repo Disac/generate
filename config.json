@@ -63,5 +63,39 @@
         }
       ]
     }
+  },
+  "kafka": {
+    "namespace": "kafka",
+    "pkg": "kafka",
+    "gen_consumer_code": true,
+    "gen_producer_code": true,
+    "sources": {
+      "producers": [
+        {
+          "name": "demo",
+          "annotation": "业务",
+          "hosts": [
+            "10.110.40.162:9092",
+            "10.110.40.163:9092"
+          ],
+          "topic": "demo_topic"
+        }
+      ],
+      "consumers": [
+        {
+          "name": "demo",
+          "annotation": "业务",
+          "hosts": [
+            "10.110.40.162:9092",
+            "10.110.40.163:9092"
+          ],
+          "topics": [
+            "demo_topic",
+            "demo1_topic"
+          ],
+          "group_id": "demo_group"
+        }
+      ]
+    }
   }
 }

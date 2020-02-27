@@ -97,15 +97,9 @@ func (g *Generator) Run() {
 		g.RabbitmqConsumerCode()
 	}
 	if g.Kafka.GenProducerCode {
-		g.Kafka.Once.Do(func() {
-			g.InitKafka()
-		})
 		g.KafkaProducerCode()
 	}
 	if g.Kafka.GenConsumerCode {
-		g.Kafka.Once.Do(func() {
-			g.InitKafka()
-		})
 		g.KafkaConsumerCode()
 	}
 }

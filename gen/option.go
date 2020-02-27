@@ -44,15 +44,30 @@ func CloseGenerateRedisCode() Option {
 	}
 }
 
-//CloseGenerateRabbitmqConsumerCode
+//CloseGenerateRabbitmqConsumerCode 关闭生成rabbitmq consumer连接代码
 func CloseGenerateRabbitmqConsumerCode() Option {
 	return func(gen *Generator) {
 		gen.Rabbitmq.GenConsumerCode = false
 	}
 }
 
+//CloseGenerateRabbitmqPublisherCode 关闭生成rabbitmq publisher连接代码
 func CloseGenerateRabbitmqPublisherCode() Option {
 	return func(gen *Generator) {
 		gen.Rabbitmq.GenPublisherCode = false
+	}
+}
+
+//CloseGenerateKafkaConsumerCode 关闭生成kafka consumer连接代码
+func CloseGenerateKafkaConsumerCode() Option {
+	return func(gen *Generator) {
+		gen.Kafka.GenConsumerCode = false
+	}
+}
+
+//CloseGenerateKafkaProducerCode 关闭生成kafka producer连接代码
+func CloseGenerateKafkaProducerCode() Option {
+	return func(gen *Generator) {
+		gen.Kafka.GenProducerCode = false
 	}
 }

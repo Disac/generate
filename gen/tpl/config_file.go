@@ -27,6 +27,18 @@ var ConfigFileTomlTpl = `#配置文件
 			url = "{{.URL}}"
 			queue = "{{.Queue}}"
 			exchange = "{{.Exchange}}"{{end}}{{end}}{{end}}
+{{if .Kafka.Namespace}}{{$kafka_namespace := .Kafka.Namespace}}[{{$kafka_namespace}}]{{if .Kafka.Sources.Producers}}
+	[{{$kafka_namespace}}.producer] {{range .Kafka.Sources.Producers}}
+		# {{.Annotation}}
+    	[{{$kafka_namespace}}.producer.{{.Name}}]
+			hosts = [{{join .Hosts}}]
+			topic = "{{.Topic}}"{{end}}{{end}}{{if .Kafka.Sources.Consumers}}
+	[{{$kafka_namespace}}.consumer] {{range .Kafka.Sources.Consumers}}
+		# {{.Annotation}}
+    	[{{$kafka_namespace}}.consumer.{{.Name}}]
+			hosts = [{{join .Hosts}}]
+			topics = [{{join .Topics}}]
+			group_id = "{{.GroupID}}"{{end}}{{end}}{{end}}
 `
 
 var ConfigFileJsonTpl = ``
