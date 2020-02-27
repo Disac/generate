@@ -29,8 +29,8 @@ func init() {
 	GOPATH = strings.Split(os.Getenv("GOPATH"), string(os.PathListSeparator))[0]
 }
 
-func NewGenerator(opt ...Option) *Generator {
-	b, err := ioutil.ReadFile("./config.json")
+func NewGenerator(path string, opt ...Option) *Generator {
+	b, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Fatal(fmt.Sprintf(ErrFormat, err))
 	}
