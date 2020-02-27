@@ -13,8 +13,9 @@ import (
 )
 
 const (
-	ErrFormat  = "new gen error: %s"
-	FileFormat = "%s" + string(os.PathSeparator) + "%s.%s"
+	ErrFormat    = "new gen error: %s"
+	FileFormat   = "%s" + string(os.PathSeparator) + "%s.%s"
+	ImportFormat = "%s" + string(os.PathSeparator) + "%s"
 )
 
 const (
@@ -48,60 +49,69 @@ func NewGenerator(path string, opt ...Option) *Generator {
 
 type Generator struct {
 	Project  string         `json:"project"`
-	Root     string         `json:"root"`
-	Dir      model.Dir      `json:"dir"`
 	Config   model.Config   `json:"config"`
-	Mysql    model.Mysql    `json:"mysql"`
-	Redis    model.Redis    `json:"redis"`
-	Rabbitmq model.Rabbitmq `json:"rabbitmq"`
-	Kafka    model.Kafka    `json:"kafka"`
+	Provider model.Provider `json:"provider"`
+
+	root string
+	src  string
+	dir  model.Dir
 }
 
 func (g *Generator) init() {
-	g.Root = GOPATH + string(os.PathSeparator) + "src" + string(os.PathSeparator) + g.Project + string(os.PathSeparator)
-	err := os.MkdirAll(g.Root, os.ModePerm)
+	g.src = GOPATH + string(os.PathSeparator) + "src" + string(os.PathSeparator)
+	g.root = g.src + g.Project + string(os.PathSeparator)
+	err := os.MkdirAll(g.root, os.ModePerm)
 	if err != nil {
 		log.Fatal(fmt.Sprintf(ErrFormat, err))
 	}
-	g.Dir = model.Dir{
-		Models:    g.Root + DefaultModelDir,
-		Modules:   g.Root + DefaultModuleDir,
-		Providers: g.Root + DefaultProviderDir,
+	g.dir = model.Dir{
+		Models:    g.root + DefaultModelDir,
+		Modules:   g.root + DefaultModuleDir,
+		Providers: g.root + DefaultProviderDir,
 	}
 	g.Config.Import = g.Project + string(os.PathSeparator) + g.Config.Pkg
+	g.Provider.Import = g.Project + string(os.PathSeparator) + g.Provider.Pkg
+	g.Provider.Dir = g.root + g.Provider.Pkg + string(os.PathSeparator)
 }
 
 func (g *Generator) Run() {
-	if g.Config.GenParseCode {
-		g.ConfigParseCodeFile()
-	}
 	if g.Config.GenFile {
 		g.ConfigFile()
 	}
-	if g.Mysql.GenCode {
+	if g.Config.GenParseCode {
+		g.ConfigParseCode()
+	}
+	if g.Provider.Mysql.GenCode {
 		g.MysqlCode()
 	}
-	if g.Redis.GenCode {
+	if g.Provider.Redis.GenCode {
 		g.RedisCode()
 	}
-	if g.Rabbitmq.GenPublisherCode {
-		g.Rabbitmq.Once.Do(func() {
-			g.InitRabbitmq()
+	if g.Provider.Rabbitmq.GenPublisherCode {
+		g.Provider.Rabbitmq.Once.Do(func() {
+			g.InitRabbitmqCode()
 		})
 		g.RabbitmqPublisherCode()
 	}
-	if g.Rabbitmq.GenConsumerCode {
-		g.Rabbitmq.Once.Do(func() {
-			g.InitRabbitmq()
+	if g.Provider.Rabbitmq.GenConsumerCode {
+		g.Provider.Rabbitmq.Once.Do(func() {
+			g.InitRabbitmqCode()
 		})
 		g.RabbitmqConsumerCode()
 	}
-	if g.Kafka.GenProducerCode {
+	if g.Provider.Kafka.GenProducerCode {
+		g.Provider.Kafka.Once.Do(func() {
+			g.InitKafkaCode()
+		})
 		g.KafkaProducerCode()
 	}
-	if g.Kafka.GenConsumerCode {
+	if g.Provider.Kafka.GenConsumerCode {
+		g.Provider.Kafka.Once.Do(func() {
+			g.InitKafkaCode()
+		})
 		g.KafkaConsumerCode()
 	}
+	g.MainCode()
 }
 
 func (g *Generator) generate(path, tplName, tpl, fileName string, data interface{}) {

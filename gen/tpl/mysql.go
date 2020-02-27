@@ -1,7 +1,7 @@
 package tpl
 
 var MysqlTpl = `
-package {{.Mysql.Pkg}}
+package {{.Provider.Mysql.Pkg}}
 
 import (
 	"fmt"
@@ -9,13 +9,13 @@ import (
 	"github.com/jinzhu/gorm"
 	"time"
 )
-{{if .Mysql.Sources}}
-var ( {{range .Mysql.Sources}}
+{{if .Provider.Mysql.Sources}}
+var ( {{range .Provider.Mysql.Sources}}
 	// {{.Annotation}}
 	{{upper .Name}} *gorm.DB{{end}}
 ){{end}}
 
-func Init() (err error) { {{range .Mysql.Sources}}
+func Init() (err error) { {{range .Provider.Mysql.Sources}}
 	{{upper .Name}}, err = initClient("{{.Name}}")
 	if err != nil {
 		return

@@ -7,95 +7,99 @@
     "gen_file": true,
     "gen_parse_code": true
   },
-  "mysql": {
-    "namespace": "mysql",
-    "pkg": "mysql",
-    "gen_code": true,
-    "sources": [
-      {
-        "name": "demo",
-        "annotation": "业务",
-        "driver": "mysql",
-        "dsn": "admin:123456@tcp(127.0.0.1:3306)/test?parseTime=true&loc=Local",
-        "max_idle_conn": 10,
-        "max_open_conn": 10,
-        "max_life_time": 300
-      }
-    ]
-  },
-  "redis": {
-    "namespace": "redis",
-    "pkg": "redis",
-    "gen_code": true,
-    "sources": [
-      {
-        "name": "demo",
-        "annotation": "业务",
-        "addr": "127.0.0.1:6379",
-        "pwd": "123456",
-        "db": 0,
-        "pool_size": 10
-      }
-    ]
-  },
-  "rabbitmq": {
-    "namespace": "rabbitmq",
-    "pkg": "rabbitmq",
-    "gen_consumer_code": true,
-    "gen_publisher_code": true,
-    "sources": {
-      "publishers": [
+  "provider": {
+    "namespace": "provider",
+    "pkg": "provider",
+    "mysql": {
+      "namespace": "mysql",
+      "pkg": "mysql",
+      "gen_code": true,
+      "sources": [
         {
           "name": "demo",
           "annotation": "业务",
-          "url": "amqp://admin:123456@127.0.0.1:5672",
-          "queue": "gift",
-          "exchange": "gift_topic"
-        }
-      ],
-      "consumers": [
-        {
-          "name": "demo",
-          "annotation": "业务",
-          "url": "amqp://admin:123456@127.0.0.1:5672",
-          "queue": "gift",
-          "exchange": "gift_topic"
+          "driver": "mysql",
+          "dsn": "admin:123456@tcp(127.0.0.1:3306)/test?parseTime=true&loc=Local",
+          "max_idle_conn": 10,
+          "max_open_conn": 10,
+          "max_life_time": 300
         }
       ]
-    }
-  },
-  "kafka": {
-    "namespace": "kafka",
-    "pkg": "kafka",
-    "gen_consumer_code": true,
-    "gen_producer_code": true,
-    "sources": {
-      "producers": [
+    },
+    "redis": {
+      "namespace": "redis",
+      "pkg": "redis",
+      "gen_code": true,
+      "sources": [
         {
           "name": "demo",
           "annotation": "业务",
-          "hosts": [
-            "10.110.40.162:9092",
-            "10.110.40.163:9092"
-          ],
-          "topic": "demo_topic"
-        }
-      ],
-      "consumers": [
-        {
-          "name": "demo",
-          "annotation": "业务",
-          "hosts": [
-            "10.110.40.162:9092",
-            "10.110.40.163:9092"
-          ],
-          "topics": [
-            "demo_topic",
-            "demo1_topic"
-          ],
-          "group_id": "demo_group"
+          "addr": "127.0.0.1:6379",
+          "pwd": "123456",
+          "db": 0,
+          "pool_size": 10
         }
       ]
+    },
+    "rabbitmq": {
+      "namespace": "rabbitmq",
+      "pkg": "rabbitmq",
+      "gen_consumer_code": true,
+      "gen_publisher_code": true,
+      "sources": {
+        "publishers": [
+          {
+            "name": "demo",
+            "annotation": "业务",
+            "url": "amqp://admin:123456@127.0.0.1:5672",
+            "queue": "gift",
+            "exchange": "gift_topic"
+          }
+        ],
+        "consumers": [
+          {
+            "name": "demo",
+            "annotation": "业务",
+            "url": "amqp://admin:123456@127.0.0.1:5672",
+            "queue": "gift",
+            "exchange": "gift_topic"
+          }
+        ]
+      }
+    },
+    "kafka": {
+      "namespace": "kafka",
+      "pkg": "kafka",
+      "gen_consumer_code": true,
+      "gen_producer_code": true,
+      "sources": {
+        "producers": [
+          {
+            "name": "demo",
+            "annotation": "业务",
+            "hosts": [
+              "10.110.40.162:9092",
+              "10.110.40.163:9092"
+            ],
+            "topic": "demo_topic"
+          }
+        ],
+        "consumers": [
+          {
+            "name": "demo",
+            "annotation": "业务",
+            "hosts": [
+              "10.110.40.162:9092",
+              "10.110.40.163:9092"
+            ],
+            "topics": [
+              "demo_topic",
+              "demo1_topic"
+            ],
+            "group_id": "demo_group"
+          }
+        ]
+      }
     }
   }
 }

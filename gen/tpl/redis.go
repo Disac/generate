@@ -1,19 +1,19 @@
 package tpl
 
 var RedisTpl = `
-package {{.Redis.Pkg}}
+package {{.Provider.Redis.Pkg}}
 
 import (
 	"{{.Config.Import}}"
 	"github.com/go-redis/redis"
 )
-{{if .Redis.Sources}}
-var ({{range .Redis.Sources}}
+{{if .Provider.Redis.Sources}}
+var ({{range .Provider.Redis.Sources}}
 	// {{.Annotation}}
 	{{upper .Name}} *redis.Client{{end}}
 ){{end}}
 
-func Init() (err error) { {{range .Redis.Sources}}
+func Init() (err error) { {{range .Provider.Redis.Sources}}
 	{{upper .Name}}, err = initClient("{{.Name}}")
 	if err != nil {
 		return

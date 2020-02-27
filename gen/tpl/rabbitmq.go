@@ -1,7 +1,7 @@
 package tpl
 
 var RabbitmqTpl = `
-package {{.Rabbitmq.Pkg}}
+package {{.Pkg}}
 
 type Connector struct {
 	Url      string
@@ -11,7 +11,7 @@ type Connector struct {
 `
 
 var RabbitmqPublisherTpl = `
-package {{.Rabbitmq.Pkg}}
+package {{.Provider.Rabbitmq.Pkg}}
 
 import (
 	"{{.Config.Import}}"
@@ -21,13 +21,13 @@ import (
 	"net"
 	"time"
 )
-{{if .Rabbitmq.Sources.Publishers}}
-var ( {{range .Rabbitmq.Sources.Publishers}}
+{{if .Provider.Rabbitmq.Sources.Publishers}}
+var ( {{range .Provider.Rabbitmq.Sources.Publishers}}
 	// {{.Annotation}}
 	{{upper .Name}}Publisher *cony.Publisher{{end}}
 ){{end}}
 
-func InitPublishers() (err error) { {{range .Rabbitmq.Sources.Publishers}}
+func InitPublishers() (err error) { {{range .Provider.Rabbitmq.Sources.Publishers}}
 	{{upper .Name}}Publisher, err = initPublisher("{{.Name}}")
 	if err != nil {
 		return
@@ -97,7 +97,7 @@ func initPublisher(key string) (publisher *cony.Publisher, err error) {
 `
 
 var RabbitmqConsumerTpl = `
-package {{.Rabbitmq.Pkg}}
+package {{.Provider.Rabbitmq.Pkg}}
 
 import (
 	"{{.Config.Import}}"
@@ -106,14 +106,14 @@ import (
 	"net"
 	"time"
 )
-{{if .Rabbitmq.Sources.Consumers}}
-var ( {{range .Rabbitmq.Sources.Consumers}}
+{{if .Provider.Rabbitmq.Sources.Consumers}}
+var ( {{range .Provider.Rabbitmq.Sources.Consumers}}
 	// {{.Annotation}}
 	{{upper .Name}}Client   *cony.Client
 	{{upper .Name}}Consumer *cony.Consumer{{end}}
 ){{end}}
 
-func InitConsumers() (err error) { {{range .Rabbitmq.Sources.Consumers}}
+func InitConsumers() (err error) { {{range .Provider.Rabbitmq.Sources.Consumers}}
 	{{upper .Name}}Client, {{upper .Name}}Consumer, err = initConsumer("{{.Name}}")
 	if err != nil {
 		return

@@ -33,41 +33,41 @@ func CloseGenerateConfigFile() Option {
 //CloseGenerateMysqlCode 关闭生成mysql连接代码
 func CloseGenerateMysqlCode() Option {
 	return func(gen *Generator) {
-		gen.Mysql.GenCode = false
+		gen.Provider.Mysql.GenCode = false
 	}
 }
 
 //CloseGenerateRedisCode 关闭生成redis连接代码
 func CloseGenerateRedisCode() Option {
 	return func(gen *Generator) {
-		gen.Redis.GenCode = false
+		gen.Provider.Redis.GenCode = false
 	}
 }
 
 //CloseGenerateRabbitmqConsumerCode 关闭生成rabbitmq consumer连接代码
 func CloseGenerateRabbitmqConsumerCode() Option {
 	return func(gen *Generator) {
-		gen.Rabbitmq.GenConsumerCode = false
+		gen.Provider.Rabbitmq.GenConsumerCode = false
 	}
 }
 
 //CloseGenerateRabbitmqPublisherCode 关闭生成rabbitmq publisher连接代码
 func CloseGenerateRabbitmqPublisherCode() Option {
 	return func(gen *Generator) {
-		gen.Rabbitmq.GenPublisherCode = false
+		gen.Provider.Rabbitmq.GenPublisherCode = false
 	}
 }
 
 //CloseGenerateKafkaConsumerCode 关闭生成kafka consumer连接代码
 func CloseGenerateKafkaConsumerCode() Option {
 	return func(gen *Generator) {
-		gen.Kafka.GenConsumerCode = false
+		gen.Provider.Kafka.GenConsumerCode = false
 	}
 }
 
 //CloseGenerateKafkaProducerCode 关闭生成kafka producer连接代码
 func CloseGenerateKafkaProducerCode() Option {
 	return func(gen *Generator) {
-		gen.Kafka.GenProducerCode = false
+		gen.Provider.Kafka.GenProducerCode = false
 	}
 }

@@ -1,20 +1,20 @@
 package tpl
 
 var KafkaProducerTpl = `
-package {{.Kafka.Pkg}}
+package {{.Provider.Kafka.Pkg}}
 
 import (
 	"encoding/json"
 	"{{.Config.Import}}"
 	"github.com/Shopify/sarama"
 )
-{{if .Kafka.Sources.Producers}}
-var ( {{range .Kafka.Sources.Producers}}
+{{if .Provider.Kafka.Sources.Producers}}
+var ( {{range .Provider.Kafka.Sources.Producers}}
 	// {{.Annotation}}
 	{{upper .Name}}Producer *Client{{end}}
 ){{end}}
 
-func InitProducers() (err error) { {{range .Kafka.Sources.Producers}}
+func InitProducers() (err error) { {{range .Provider.Kafka.Sources.Producers}}
 	{{upper .Name}}Producer, err = initClient("{{.Name}}")
 	if err != nil {
 		return
@@ -65,20 +65,20 @@ func producerConfig() *sarama.Config {
 }
 `
 var KafkaConsumerTpl = `
-package {{.Kafka.Pkg}}
+package {{.Provider.Kafka.Pkg}}
 
 import (
 	"{{.Config.Import}}"
 	"github.com/Shopify/sarama"
 	"github.com/bsm/sarama-cluster"
 )
-{{if .Kafka.Sources.Consumers}}
-var ( {{range .Kafka.Sources.Consumers}}
+{{if .Provider.Kafka.Sources.Consumers}}
+var ( {{range .Provider.Kafka.Sources.Consumers}}
 	// {{.Annotation}}
 	{{upper .Name}}Consumer *cluster.Consumer{{end}}
 ){{end}}
 
-func InitConsumers() (err error) { {{range .Kafka.Sources.Consumers}}
+func InitConsumers() (err error) { {{range .Provider.Kafka.Sources.Consumers}}
 	{{upper .Name}}Consumer, err = initConsumer("{{.Name}}")
 	if err != nil {
 		return
