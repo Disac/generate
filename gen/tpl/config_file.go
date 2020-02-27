@@ -14,19 +14,19 @@ var ConfigFileTomlTpl = `#配置文件
         pwd = "{{.Pwd}}"
         db = {{.Db}}
         pool_size = {{.PoolSize}}{{end}}{{end}}
-{{if .Rabbitmq.Namespace}}{{$rabbitmq_namespace := .Rabbitmq.Namespace}}[{{$rabbitmq_namespace}}]
+{{if .Rabbitmq.Namespace}}{{$rabbitmq_namespace := .Rabbitmq.Namespace}}[{{$rabbitmq_namespace}}]{{if .Rabbitmq.Sources.Publishers}}
 	[{{$rabbitmq_namespace}}.publisher] {{range .Rabbitmq.Sources.Publishers}}
 		# {{.Annotation}}
     	[{{$rabbitmq_namespace}}.publisher.{{.Name}}]
 			url = "{{.URL}}"
 			queue = "{{.Queue}}"
-			exchange = "{{.Exchange}}"{{end}}
+			exchange = "{{.Exchange}}"{{end}}{{end}}{{if .Rabbitmq.Sources.Consumers}}
 	[{{$rabbitmq_namespace}}.consumer] {{range .Rabbitmq.Sources.Consumers}}
 		# {{.Annotation}}
     	[{{$rabbitmq_namespace}}.consumer.{{.Name}}]
 			url = "{{.URL}}"
 			queue = "{{.Queue}}"
-			exchange = "{{.Exchange}}"{{end}}{{end}}
+			exchange = "{{.Exchange}}"{{end}}{{end}}{{end}}
 `
 
 var ConfigFileJsonTpl = ``

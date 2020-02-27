@@ -54,6 +54,7 @@ type Generator struct {
 	Mysql    model.Mysql    `json:"mysql"`
 	Redis    model.Redis    `json:"redis"`
 	Rabbitmq model.Rabbitmq `json:"rabbitmq"`
+	Kafka    model.Kafka    `json:"kafka"`
 }
 
 func (g *Generator) init() {
@@ -94,6 +95,18 @@ func (g *Generator) Run() {
 			g.InitRabbitmq()
 		})
 		g.RabbitmqConsumerCode()
+	}
+	if g.Kafka.GenProducerCode {
+		g.Kafka.Once.Do(func() {
+			g.InitKafka()
+		})
+		g.KafkaProducerCode()
+	}
+	if g.Kafka.GenConsumerCode {
+		g.Kafka.Once.Do(func() {
+			g.InitKafka()
+		})
+		g.KafkaConsumerCode()
 	}
 }
 

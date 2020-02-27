@@ -1,6 +1,6 @@
 package tpl
 
-var ConfigParseCodeTpl = `
+var ConfigParseTpl = `
 package {{.Pkg}}
 
 import (

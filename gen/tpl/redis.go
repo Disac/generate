@@ -1,6 +1,6 @@
 package tpl
 
-var RedisCodeTpl = `
+var RedisTpl = `
 package {{.Redis.Pkg}}
 
 import (

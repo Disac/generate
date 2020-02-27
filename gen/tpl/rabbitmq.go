@@ -10,7 +10,7 @@ type Connector struct {
 }
 `
 
-var RabbitmqPublisherCodeTpl = `
+var RabbitmqPublisherTpl = `
 package {{.Rabbitmq.Pkg}}
 
 import (
@@ -37,9 +37,9 @@ func InitPublisher() (err error) { {{range .Rabbitmq.Sources.Publishers}}
 
 func initPublisher(key string) (publisher *cony.Publisher, err error) {
 	connector := Connector{
-		Url:      {{.Config.Pkg}}.Viper.GetString("rabbitmq." + key + ".url"),
-		Queue:    {{.Config.Pkg}}.Viper.GetString("rabbitmq." + key + ".queue"),
-		Exchange: {{.Config.Pkg}}.Viper.GetString("rabbitmq." + key + ".exchange"),
+		Url:      {{.Config.Pkg}}.Viper.GetString("rabbitmq.publisher." + key + ".url"),
+		Queue:    {{.Config.Pkg}}.Viper.GetString("rabbitmq.publisher." + key + ".queue"),
+		Exchange: {{.Config.Pkg}}.Viper.GetString("rabbitmq.publisher." + key + ".exchange"),
 	}
 	que := &cony.Queue{
 		Name:       connector.Queue, // name
@@ -96,7 +96,7 @@ func initPublisher(key string) (publisher *cony.Publisher, err error) {
 }
 `
 
-var RabbitmqConsumerCodeTpl = `
+var RabbitmqConsumerTpl = `
 package {{.Rabbitmq.Pkg}}
 
 import (
@@ -123,9 +123,9 @@ func InitConsumer() (err error) { {{range .Rabbitmq.Sources.Consumers}}
 
 func initConsumer(key string) (client *cony.Client, consumer *cony.Consumer, err error) {
 	connector := Connector{
-		Url:      {{.Config.Pkg}}.Viper.GetString("rabbitmq." + key + ".url"),
-		Queue:    {{.Config.Pkg}}.Viper.GetString("rabbitmq." + key + ".queue"),
-		Exchange: {{.Config.Pkg}}.Viper.GetString("rabbitmq." + key + ".exchange"),
+		Url:      {{.Config.Pkg}}.Viper.GetString("rabbitmq.consumer." + key + ".url"),
+		Queue:    {{.Config.Pkg}}.Viper.GetString("rabbitmq.consumer." + key + ".queue"),
+		Exchange: {{.Config.Pkg}}.Viper.GetString("rabbitmq.consumer." + key + ".exchange"),
 	}
 	que := &cony.Queue{
 		Name:       connector.Queue, // name

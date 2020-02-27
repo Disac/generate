@@ -1,6 +1,6 @@
 package tpl
 
-var MysqlCodeTpl = `
+var MysqlTpl = `
 package {{.Mysql.Pkg}}
 
 import (
