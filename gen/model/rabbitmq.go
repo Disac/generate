@@ -1,15 +1,24 @@
 package model
 
+import "sync"
+
 type Rabbitmq struct {
 	Base
-	GenProducerCode bool             `json:"gen_producer_code"`
-	GenConsumerCode bool             `json:"gen_consumer_code"`
-	Sources         []RabbitmqSource `json:"sources"`
+	GenConsumerCode  bool            `json:"gen_consumer_code"`
+	GenPublisherCode bool            `json:"gen_publisher_code"`
+	Sources          RabbitmqSources `json:"sources"`
+
+	Once sync.Once
+}
+
+type RabbitmqSources struct {
+	Publishers []RabbitmqSource `json:"publishers"`
+	Consumers  []RabbitmqSource `json:"consumers"`
 }
 
 type RabbitmqSource struct {
-	Name  string `json:"name"`
-	URL   string `json:"url"`
-	Topic string `json:"topic"`
-	Queue string `json:"queue"`
+	SourceBase
+	URL      string `json:"url"`
+	Queue    string `json:"queue"`
+	Exchange string `json:"exchange"`
 }

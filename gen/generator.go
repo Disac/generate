@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"text/template"
 )
 
 const (
@@ -46,12 +47,13 @@ func NewGenerator(opt ...Option) *Generator {
 }
 
 type Generator struct {
-	Project string       `json:"project"`
-	Root    string       `json:"root"`
-	Dir     model.Dir    `json:"dir"`
-	Config  model.Config `json:"config"`
-	Mysql   model.Mysql  `json:"mysql"`
-	Redis   model.Redis  `json:"redis"`
+	Project  string         `json:"project"`
+	Root     string         `json:"root"`
+	Dir      model.Dir      `json:"dir"`
+	Config   model.Config   `json:"config"`
+	Mysql    model.Mysql    `json:"mysql"`
+	Redis    model.Redis    `json:"redis"`
+	Rabbitmq model.Rabbitmq `json:"rabbitmq"`
 }
 
 func (g *Generator) init() {
@@ -81,6 +83,39 @@ func (g *Generator) Run() {
 	if g.Redis.GenCode {
 		g.RedisCode()
 	}
+	if g.Rabbitmq.GenPublisherCode {
+		g.Rabbitmq.Once.Do(func() {
+			g.InitRabbitmq()
+		})
+		g.RabbitmqPublisherCode()
+	}
+	if g.Rabbitmq.GenConsumerCode {
+		g.Rabbitmq.Once.Do(func() {
+			g.InitRabbitmq()
+		})
+		g.RabbitmqConsumerCode()
+	}
+}
+
+func (g *Generator) generate(path, tplName, tpl, fileName string, data interface{}) {
+	err := g.mkdirAll(path)
+	if err != nil {
+		log.Fatal(fmt.Sprintf(ErrFormat, err))
+	}
+	t, err := template.New(tplName).Funcs(fns).Parse(tpl)
+	if err != nil {
+		log.Fatal(fmt.Sprintf(ErrFormat, err))
+	}
+	f, _ := os.Create(fileName)
+	err = t.Execute(f, data)
+	if err != nil {
+		log.Fatal(fmt.Sprintf(ErrFormat, err))
+	}
+	f.Close()
+	if strings.HasSuffix(f.Name(), ".go") {
+		g.cmd(path)
+	}
+	return
 }
 
 func (g *Generator) mkdirAll(path ...string) error {

@@ -9,9 +9,11 @@ import (
 	"github.com/jinzhu/gorm"
 	"time"
 )
-
-{{range .Mysql.Sources}}
-var {{upper .Name}} *gorm.DB{{end}}
+{{if .Mysql.Sources}}
+var ( {{range .Mysql.Sources}}
+	// {{.Annotation}}
+	{{upper .Name}} *gorm.DB{{end}}
+){{end}}
 
 func Init() (err error) { {{range .Mysql.Sources}}
 	{{upper .Name}}, err = initClient("{{.Name}}")

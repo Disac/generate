@@ -7,9 +7,11 @@ import (
 	"{{.Config.Import}}"
 	"github.com/go-redis/redis"
 )
-
-{{range .Redis.Sources}}
-var {{upper .Name}} *redis.Client{{end}}
+{{if .Redis.Sources}}
+var ({{range .Redis.Sources}}
+	// {{.Annotation}}
+	{{upper .Name}} *redis.Client{{end}}
+){{end}}
 
 func Init() (err error) { {{range .Redis.Sources}}
 	{{upper .Name}}, err = initClient("{{.Name}}")

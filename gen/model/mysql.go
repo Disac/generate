@@ -7,7 +7,7 @@ type Mysql struct {
 }
 
 type MysqlSource struct {
-	Name        string `json:"name"`
+	SourceBase
 	Driver      string `json:"driver"`
 	Dsn         string `json:"dsn"`
 	MaxIdleConn int    `json:"max_idle_conn"`

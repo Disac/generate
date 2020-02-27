@@ -7,7 +7,7 @@ type Redis struct {
 }
 
 type RedisSource struct {
-	Name     string `json:"name"`
+	SourceBase
 	Addr     string `json:"addr"`
 	Pwd      string `json:"pwd"`
 	Db       int    `json:"db"`

@@ -43,3 +43,16 @@ func CloseGenerateRedisCode() Option {
 		gen.Redis.GenCode = false
 	}
 }
+
+//CloseGenerateRabbitmqConsumerCode
+func CloseGenerateRabbitmqConsumerCode() Option {
+	return func(gen *Generator) {
+		gen.Rabbitmq.GenConsumerCode = false
+	}
+}
+
+func CloseGenerateRabbitmqPublisherCode() Option {
+	return func(gen *Generator) {
+		gen.Rabbitmq.GenPublisherCode = false
+	}
+}
